@@ -152,11 +152,15 @@ class P(object):
             dot = self.w * 0.01
         elif self.w in [10, 11, 12, 13, 14]:
             dot = 0.1
-        elif self.w in [x2 for x2 in range(15, 26)]:
+        elif self.w in [x2 for x2 in range(15, 20)]:
+            dot = 0.15
+        elif self.w in [x2 for x2 in range(20, 25)]:
             dot = 0.2
-        elif self.w in [x2 for x2 in range(26, 36)]:
+        elif self.w in [x2 for x2 in range(25, 30)]:
+            dot = 0.25
+        elif self.w in [x2 for x2 in range(30, 40)]:
             dot = 0.3
-        elif self.w in [x2 for x2 in range(36, 46)]:
+        elif self.w in [x2 for x2 in range(40, 50)]:
             dot = 0.4
         else:
             dot = 0.5
