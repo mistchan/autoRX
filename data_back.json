@@ -1,2 +1,14 @@
 {"age": 0, "name": "", "weight": 0, "gender":"", "rx": []}
 {"rx": [["阿奇霉素颗粒(希舒美)0.1*1盒", "              sig: 0.2 qd po (吃3天停4天)"], ["止嗽口服液10ml*1盒", "              sig: 5ml Tid po"]], "age": 2, "name": "赤昉霏", "gender": "女", "weight": 15}
+{"rx": [["止嗽口服液10ml*1盒", "              sig: 5ml Tid po"]], "gender": "女", "weight": 15, "name": "张语彤", "age": 3}
+{"rx": [["止嗽口服液10ml*1盒", "              sig: 5ml Tid po"]], "weight": 15, "name": "文宇宸", "age": 3, "gender": "男"}
+{"weight": 20, "gender": "男", "rx": [["阿奇霉素颗粒(希舒美)0.1*1盒", "              sig: 0.2 qd po (吃3天停4天)"], ["止嗽口服液10ml*1盒", "              sig: 5ml Tid po"]], "age": 5, "name": "袁熠宸"}
+{"rx": [["赖氨酸磷酸氢钙(小K斯)*3盒", "                sig: 1包 Tid po"]], "name": "朱中铎之宝", "gender": "男", "age": 6, "weight": 15}
+{"rx": [["阿奇霉素颗粒(希舒美)0.1*1盒", "              sig: 0.1 qd po (吃3天停4天)"], ["止嗽口服液10ml*1盒", "              sig: 3ml Tid po"]], "age": 1, "gender": "男", "weight": 12, "name": "连嘉霖"}
+{"weight": 12, "rx": [["赖氨酸磷酸氢钙(小K斯)*3盒", "                sig: 0.5包 Tid po"]], "name": "杨春月", "age": 1, "gender": "男"}
+{"name": "李雨霏", "gender": "女", "weight": 19, "rx": [["止嗽口服液10ml*1盒", "              sig: 5ml Tid po"], ["头孢丙烯颗粒(银力舒)*1盒", "                    sig: 0.16 Bid po"]], "age": 6}
+{"name": "李雨霏", "age": 6, "rx": [], "gender": "女", "weight": 19}
+{"weight": 19, "name": "李雨霏", "age": 6, "gender": "女", "rx": [["止嗽口服液10ml*1盒", "              sig: 5ml Tid po"], ["头孢丙烯颗粒(银力舒)*1盒", "                    sig: 0.16 Bid po"]]}
+{"weight": 19, "name": "李雨霏", "rx": [], "age": 6, "gender": "女"}
+{"rx": [["阿奇霉素颗粒(希舒美)0.1*1盒", "              sig: 0.1 qd po (吃3天停4天)"], ["止嗽口服液10ml*1盒", "              sig: 5ml Tid po"]], "age": 2, "gender": "男", "weight": 12, "name": "赵梓潼"}
+{"gender": "男", "age": 2, "weight": 12, "rx": [], "name": "赵梓潼"}

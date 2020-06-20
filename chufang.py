@@ -186,12 +186,13 @@ class Ky(object):
         self.age = age
         self.weight = weight
         self.root.wm_attributes('-topmost', 1)
+        self.root.overrideredirect(True)
 
         sw = self.root.winfo_screenwidth()
         sh = self.root.winfo_screenheight()
 
         ww = 500
-        wh = 700
+        wh = 650
         self.root.geometry(
             "%dx%d+%d+%d" %
             (ww, wh, (sw - ww) / 2, (sh - wh) / 2))
@@ -199,7 +200,7 @@ class Ky(object):
         self.val = tk.StringVar()
 
         self.f1 = tk.Frame(self.root)
-        self.f1.grid(pady=10)
+        self.f1.grid(pady=25)
 
         tk.Label(self.f1, text='姓名').grid(row=0, column=0)
         self.e1 = tk.Entry(self.f1)
