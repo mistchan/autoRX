@@ -16,13 +16,13 @@ def write_date(info_dict, name, age, weight, gender, rx_list):
     info_dict['rx'] = rx_list
     info_dict['gender'] = gender
 
-    with open('data_back.json', 'a', encoding='utf-8') as f:
+    with open('record.db', 'a', encoding='utf-8') as f:
         f.write('\n')
         json.dump(info_dict, f, ensure_ascii=False, sort_keys=True)
 
         f.close()
 
-
+# todo 优化药品用量计算方式，改为json文件形式
 class P(object):
     def __init__(self, w, a):
         self.w = w
@@ -273,7 +273,7 @@ class Ky(object):
         self.btc.grid(row=0, column=1)
 
     def read_data(self):
-        with open('data_back.json', encoding='utf-8') as f:
+        with open('record.db', encoding='utf-8') as f:
             lines = f.readlines()
 
             if lines:
@@ -334,7 +334,7 @@ class Ky(object):
 
 
 def to_word(text_header, text_body):
-    d = Document('.\\chufang.docx')
+    d = Document('.\\modal.mod')
 
     t = d.tables
 
