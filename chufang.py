@@ -285,7 +285,10 @@ class Ky(object):
                 return {"age": 0, "name": "", "weight": 0, "gender": "", "rx": []}
 
     def ok(self):
-
+        self.name = self.e1.get()
+        self.gender = self.e2.get()
+        self.age = int(self.e3.get())
+        self.weight = int(self.e4.get())
         res = self.text.get(1.0, tk.END)
         self.text_to_w = res.split('\n')
 
@@ -330,7 +333,7 @@ class Ky(object):
             pass
 
 
-def to_word(text_1, text_2):
+def to_word(text_header, text_body):
     d = Document('.\\chufang.docx')
 
     t = d.tables
@@ -338,7 +341,7 @@ def to_word(text_1, text_2):
     t1 = t[0]
     for i in range(1, len(t1.columns), 2):
         t1.cell(0, i).text = ''
-        run = t1.cell(0, i).paragraphs[0].add_run(text_1[(i - 1) // 2])
+        run = t1.cell(0, i).paragraphs[0].add_run(text_header[(i - 1) // 2])
         run.font.name = '宋体'
         run.font.size = 240000
 
@@ -346,8 +349,8 @@ def to_word(text_1, text_2):
     l = 0
     for row in range(0, len(t2.rows)):
         t2.cell(0, row).text = ''
-    for j in range(0, len(text_2)):
-        run1 = t2.cell(0, l).paragraphs[0].add_run(text_2[j])
+    for j in range(0, len(text_body)):
+        run1 = t2.cell(0, l).paragraphs[0].add_run(text_body[j])
         run1.font.name = '宋体'
         run1.font.size = 240000
         l += 1
@@ -367,15 +370,16 @@ def print_file(filename):
 
 
 if __name__ == '__main__':
-    root = tk.Tk()
-    app = Ky(root)
-    root.mainloop()
+    while True:
+        root = tk.Tk()
+        app = Ky(root)
+        root.mainloop()
 
-    p_info = {}
-    write_date(p_info, app.name, app.age, app.weight, app.gender, app.text_to_w)
+        p_info = {}
+        write_date(p_info, app.name, app.age, app.weight, app.gender, app.text_to_w)
 
-    text_head = [app.name, app.gender, str(app.age)]
-    text_body = app.text_to_w
+        text_head = [app.name, app.gender, str(app.age)]
+        text_body = app.text_to_w
+        to_word(text_head, text_body)
 
-    to_word(text_head, text_body)
-    print_file(os.path.abspath('.\\temp.docx'))
+        print_file(os.path.abspath('.\\temp.docx'))
