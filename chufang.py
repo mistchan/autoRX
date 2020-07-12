@@ -303,12 +303,12 @@ class DrugUsageConf(tk.Toplevel):
         if self.flag:
             self.res[self.drug_name.get()] = copy.deepcopy(self.usage_info)
 
-        with open('conf.json', 'r', encoding='utf-8') as conf_file:
+        with open('conf.db', 'r', encoding='utf-8') as conf_file:
             conf_dict = json.load(conf_file)
         for i, v in self.res.items():
             conf_dict[i] = v
         conf_file.close()
-        with open('conf.json', 'w+', encoding='utf-8') as conf_to_save:
+        with open('conf.db', 'w+', encoding='utf-8') as conf_to_save:
             json.dump(conf_dict, conf_to_save, sort_keys=True, ensure_ascii=False)
         self.destroy()
         sys.exit(0)
@@ -316,7 +316,7 @@ class DrugUsageConf(tk.Toplevel):
 
 class Ky(object):
     # 注册关联药品名及用法
-    with open('conf.json', 'r', encoding='utf-8') as f:
+    with open('conf.db', 'r', encoding='utf-8') as f:
         res = json.load(f)
     drug = res.keys()
 
@@ -433,7 +433,7 @@ class Ky(object):
         # 主窗口等待上层窗口结束，否则下面刷新文件列表的语句会马上执行。
         self.root.wait_window(setup_ui)
         # 配置结束后刷新配置文件列表
-        with open('conf.json', 'r', encoding='utf-8') as f:
+        with open('conf.db', 'r', encoding='utf-8') as f:
             res = json.load(f)
         self.drug = res.keys()
 
