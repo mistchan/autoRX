@@ -1,0 +1,152 @@
+{
+  "止嗽口服液": {
+    "amount": "1盒",
+    "freq": "Tid",
+    "route": "po",
+    "basis": "age",
+    "range_list": [
+      [0, 2],
+      [2, 6],
+      [6, 12]
+    ],
+    "dosage_list": [
+      2.5, 5, 7.5
+    ],
+    "normal_dosage": 10,
+    "unit": "ml"
+  },
+  "头孢丙烯颗粒(银力舒)": {
+    "amount": "1盒",
+    "freq": "q12h",
+    "route": "po",
+    "basis": "weight",
+    "range_list": [
+      [12, 15],
+      [15, 21],
+      [21, 25],
+      [25, 38],
+      [38, 50],
+      [50, 70]
+    ],
+    "dosage_list": [
+      0.125, 0.16, 0.2, 0.25, 0.375,0.5
+    ],
+    "normal_dosage": 0.25,
+    "unit": "g"
+  },
+  "脑蛋白水解物口服液(万通)10ml": {
+    "amount": "1盒",
+    "freq": "Tid",
+    "route": "po",
+    "basis": "age",
+    "range_list": [
+      [0, 2],
+      [2, 6],
+      [6, 11],
+      [11, 14]
+
+    ],
+    "dosage_list": [
+      3,5,7.5,10
+    ],
+    "normal_dosage": 10,
+    "unit": "ml"
+  },
+  "赖氨酸磷酸氢钙(小K斯)": {
+    "amount": "3盒",
+    "freq": "Bid",
+    "route": "po",
+    "basis": "age",
+    "range_list": [
+      [0, 2],
+      [2, 14]
+    ],
+    "dosage_list": [
+      0.5, 1
+    ],
+    "normal_dosage": 1,
+    "unit": "包"
+  },
+  "阿奇霉素颗粒(希舒美)0.1": {
+    "amount": "1盒",
+    "freq": "qd",
+    "route": "po",
+    "basis": "weight",
+    "range_list": [
+      [10, 15],
+      [15, 20],
+      [20, 25],
+      [25, 30],
+      [30, 40],
+      [40, 50],
+      [50, 60]
+    ],
+    "dosage_list": [
+      0.1,0.15,0.2,0.25,0.3,0.4,0.5
+    ],
+    "normal_dosage": 0.1,
+    "unit": "g"
+  },
+  "双氯芬酸钾栓 12.5mg": {
+    "amount": "1盒",
+    "freq": "st",
+    "route": "肛塞",
+    "basis": "weight",
+    "range_list": [
+      [5, 7],
+      [7, 9],
+      [9, 10],
+      [10, 12],
+      [12, 16],
+      [16, 25],
+      [25, 35],
+      [35, 40],
+      [40, 50]
+
+    ],
+    "dosage_list": [
+      5,6,8,10,12.5,15,25,35,40
+    ],
+    "normal_dosage": 12.5,
+    "unit": "mg"
+  },
+  "双氯芬酸钾栓 50mg": {
+    "amount": "1盒",
+    "freq": "st",
+    "route": "肛塞",
+    "basis": "weight",
+    "range_list": [
+      [5, 7],
+      [7, 9],
+      [9, 10],
+      [10, 12],
+      [12, 16],
+      [16, 25],
+      [25, 35],
+      [35, 40],
+      [40, 50]
+
+    ],
+    "dosage_list": [
+      5,6,8,10,12.5,15,25,35,40
+    ],
+    "normal_dosage": 25,
+    "unit": "mg"
+  },
+  "硫酸亚铁糖浆": {
+    "amount": "1盒",
+    "freq": "Tid",
+    "route": "po",
+    "basis": "age",
+    "range_list": [
+      [0, 1],
+      [1, 5],
+      [5, 12]
+    ],
+    "dosage_list": [
+      1.5, 3, 5
+    ],
+    "normal_dosage": 1,
+    "unit": "ml"
+  }
+}

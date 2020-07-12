@@ -96,14 +96,14 @@ class DrugUsageConf(tk.Toplevel):
 
         tk.Label(drug_frame, text='药品名称：', font=('微软雅黑', 10)).pack(side=tk.LEFT)
         self.drug_name = tk.Entry(drug_frame, width=20, font=('微软雅黑', 10))
-        self.drug_name.insert(0, '脑蛋白水解物口服液10ml')
+        self.drug_name.insert(0, '脑蛋白水解物口服液10mL')
         self.drug_name.focus_set()
 
         self.drug_name.pack(side=tk.LEFT)
 
         tk.Label(drug_frame, text='×总量：', font=('微软雅黑', 10)).pack(side=tk.LEFT)
         self.amount = tk.Entry(drug_frame, width=4, font=('微软雅黑', 10))
-        self.amount.insert(0, '2盒')
+        self.amount.insert(0, '1盒')
         self.amount.pack(side=tk.LEFT)
 
         usage_frame = tk.Frame(self)
@@ -121,7 +121,7 @@ class DrugUsageConf(tk.Toplevel):
 
         tk.Label(usage_frame, text='单位', font=('微软雅黑', 10)).pack(side=tk.LEFT)
         self.unit = tk.Entry(usage_frame, width=4, font=('微软雅黑', 10))
-        self.unit.insert(0, 'mg')
+        self.unit.insert(0, 'mL')
         self.unit.pack(side=tk.LEFT)
 
 
