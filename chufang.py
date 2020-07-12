@@ -28,7 +28,7 @@ class DrugUse(object):
     def __init__(self, w, a):
         self.w = w
         self.a = a
-        with open('conf.json', 'r', encoding='utf-8') as f:
+        with open('conf.db', 'r', encoding='utf-8') as f:
             self.res = json.load(f)
 
     def output(self, drug_name):
@@ -74,7 +74,7 @@ class DrugUsageConf(tk.Toplevel):
         sh = self.winfo_screenheight()
 
         ww = 600
-        wh = 700
+        wh = 750
         self.geometry(
             "%dx%d+%d+%d" %
             (ww, wh, (sw - ww) / 2, (sh - wh) / 2))
@@ -84,9 +84,6 @@ class DrugUsageConf(tk.Toplevel):
             "age": "年龄",
         }
         self.flag = True
-        self.tool_entry = tk.Entry(self, font=('微软雅黑', 1), width=1)
-        self.tool_entry.insert(0, '0')
-        self.tool_entry.pack(side=tk.BOTTOM)
 
         self.hint = tk.StringVar()
         self.hint.set('提示：请填写药品的用法用量等详细信息，点击“存储”按钮结束一种药品的信息填写并暂存；\n点击“完成并退出”按钮，生成配置文件并退出。')
