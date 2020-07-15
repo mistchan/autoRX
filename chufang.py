@@ -5,21 +5,19 @@ import sys
 import tkinter as tk
 import win32api
 import win32print
-
 from docx import Document
 
 
+# 将本次开药结果以json形式储存到record.db
 def write_date(info_dict, name, age, weight, gender, rx_list):
     info_dict['name'] = name
     info_dict['age'] = age
     info_dict['weight'] = weight
     info_dict['rx'] = rx_list
     info_dict['gender'] = gender
-
     with open('record.db', 'a', encoding='utf-8') as f:
         f.write('\n')
         json.dump(info_dict, f, ensure_ascii=False, sort_keys=True)
-
         f.close()
 
 
@@ -32,7 +30,7 @@ class DrugUse(object):
             self.res = json.load(f)
 
     def output(self, drug_name):
-
+        # 药品用法依据：体重、年龄、固定用法
         if self.res[drug_name]['basis'] == 'weight':
             real_val = self.w
         elif self.res[drug_name]['basis'] == 'age':
@@ -46,12 +44,16 @@ class DrugUse(object):
                             self.res[drug_name]['route']
                         )
                     ]
-        idx = None
+
+        # 求根据剂量范围列表的index求用量列表的index
+        dosage_idx = None
         for i in self.res[drug_name]['range_list']:
             if real_val in range(*i):
-                idx = self.res[drug_name]['range_list'].index(i)
-        if idx:
-            dot = self.res[drug_name]['dosage_list'][idx]
+                dosage_idx = self.res[drug_name]['range_list'].index(i)
+                break
+        if dosage_idx is not None:
+            # 如果dosage_idx有值，则根据index求具体用量
+            dot = self.res[drug_name]['dosage_list'][dosage_idx]
         else:
             dot = self.res[drug_name]['normal_dosage']
 
@@ -65,6 +67,7 @@ class DrugUse(object):
                 ]
 
 
+# 自定义药品用法用量的UI
 class DrugUsageConf(tk.Toplevel):
     def __init__(self):
         super().__init__()
@@ -87,7 +90,8 @@ class DrugUsageConf(tk.Toplevel):
 
         self.hint = tk.StringVar()
         self.hint.set('提示：请填写药品的用法用量等详细信息，点击“存储”按钮结束一种药品的信息填写并暂存；\n点击“完成并退出”按钮，生成配置文件并退出。')
-        tk.Label(self, textvariable=self.hint, font=('微软雅黑', 10)).pack()
+        self.hint_label = tk.Label(self, textvariable=self.hint, font=('微软雅黑', 10))
+        self.hint_label.pack()
         drug_frame = tk.Frame(self)
         drug_frame.pack(pady=15)
 
@@ -122,7 +126,6 @@ class DrugUsageConf(tk.Toplevel):
         self.unit.pack(side=tk.LEFT)
 
 
-
         tk.Label(self, text='如何计算用量：', font=('微软雅黑', 10)).pack()
 
         self.radio_value = tk.StringVar()
@@ -143,13 +146,20 @@ class DrugUsageConf(tk.Toplevel):
                                        command=self.destroy_add)
 
         set_radio_age.pack(side=tk.LEFT)
+        # 储存点击添加按钮后自动生成的组件
         self.set_list = []
+        # 每种药品的用法汇总
         self.usage_info = {}
+        # 最终结果，以药品名字为键，self.usage_info为值的字典，最后以json格式储存
         self.res = {}
+        # 每种药物的用量范围汇总
         self.usage_range = {}
+        # 初始化时候显示‘固定用量’
         self.destroy_fix()
+
         btn_frame = tk.Frame(self)
         btn_frame.pack(pady=10)
+
         self.btn_ok = tk.Button(btn_frame, text='存储', width=12, height=2, activebackground='grey',
                            relief='groove')
         # 按下按钮就获得焦点，使add_frame失去焦点后获取值的功能能充分实现
@@ -157,6 +167,7 @@ class DrugUsageConf(tk.Toplevel):
         # 松开按钮才触发功能，防止最后填写的值（add_frame只有在失去焦点后才获取值）不能被正确获取。
         self.btn_ok.bind('<ButtonRelease-1>', self.confirm)
         self.btn_ok.pack(side=tk.LEFT)
+
         self.btn_cancel = tk.Button(btn_frame, text='完成并退出', width=12, height=2, activebackground='grey',
                                relief='groove')
 
@@ -164,20 +175,25 @@ class DrugUsageConf(tk.Toplevel):
 
         self.btn_cancel.bind('<ButtonRelease-1>', self.cancel)
         self.btn_cancel.pack(side=tk.RIGHT)
-        self.warn_text = tk.StringVar()
-        tk.Label(self, textvariable=self.warn_text, font=('微软雅黑', 10), fg='red', width=25).pack()
+
+        # 给整个Entry类组件绑定事件和回调函数
         self.bind_class("Entry", "<FocusIn>", self.on_select)
 
-
-
     def add(self):
+        # 储存用法依据
         self.usage_info['basis'] = self.radio_value.get()
+        self.usage_info["normal_dosage"] = ''
 
+        # 定义赋值函数
         def aquire(event):
             # 三个格都有值才赋值
             if starts.get() and ends.get() and dots.get():
+                # 以组件的实例为键，用法范围及该范围对应的用量数据为值
                 self.usage_range[event.widget] = [starts.get(), ends.get(), dots.get()]
+
+
         add_frame = tk.Frame(self)
+        # 新添加的组件失去焦点后触发取值函数 aquire
         add_frame.bind('<FocusOut>', aquire)
         add_frame.pack(pady=10)
         self.set_list.append(add_frame)
@@ -193,6 +209,8 @@ class DrugUsageConf(tk.Toplevel):
         dots = tk.Entry(add_frame, font=('微软雅黑', 10), width=4)
 
         dots.pack(side=tk.LEFT)
+
+        # 设定新增组件大于10个时新增按钮消失，避免无限制增加组件。
         if len(self.set_list) < 18:
             btn = tk.Button(self, text='增加%s范围' % self.note[self.radio_value.get()], width=12, height=2, activebackground='grey', relief='groove')
             btn.bind('<ButtonRelease-1>', self.add_destroy)
@@ -200,10 +218,8 @@ class DrugUsageConf(tk.Toplevel):
             btn.pack()
             self.set_list.append(btn)
 
-
-
     def destroy_it(self):
-
+        # 摧毁所有新增组件功能，摧毁前情况已储存的数据。
         self.usage_info.clear()
         self.usage_range.clear()
         for each in self.set_list:
@@ -219,7 +235,7 @@ class DrugUsageConf(tk.Toplevel):
         event.widget.destroy()
 
     def destroy_fix(self):
-
+        # 点击固定用量时生成的组件
         self.destroy_it()
         self.usage_info['basis'] = self.radio_value.get()
 
@@ -249,7 +265,7 @@ class DrugUsageConf(tk.Toplevel):
         self.usage_info["freq"] = self.freq.get()
         self.usage_info["route"] = self.route.get()
         self.usage_info["unit"] = self.unit.get()
-        self.usage_info["normal_dosage"] = ''
+        self.usage_info.setdefault("normal_dosage", '')
         self.usage_info["range_list"] = []
         self.usage_info["dosage_list"] = []
         for each_list in self.usage_range.values():
@@ -262,7 +278,10 @@ class DrugUsageConf(tk.Toplevel):
         elif self.usage_info['basis'] == 'fixed':
             if not self.usage_info["normal_dosage"]:
                 self.flag = False
+            else:
+                self.flag = True
         elif not (self.usage_info["range_list"] and self.usage_info["dosage_list"]):
+
                 self.flag = False
         else:
             self.flag = True
@@ -271,34 +290,15 @@ class DrugUsageConf(tk.Toplevel):
 
             self.radio_value.set('fixed')
             self.destroy_fix()
+            self.hint_label.configure(fg='black')
             self.hint.set('药品【%s】用法已储存！\n请继续添加下一种药品信息；\n若需修改已填写药品信息，请保持药品名称不变，直接修改其他信息，后点击“储存！”\n完成全部药品的填写后请点击“完成并退出”按钮，生成配置文件并退出' % self.drug_name.get())
 
         else:
+            self.hint_label.configure(fg='red')
             self.hint.set('错误：药品信息均不能为空，请修正！')
 
     def cancel(self, event):
-        self.usage_info["amount"] = self.amount.get()
-        self.usage_info["freq"] = self.freq.get()
-        self.usage_info["route"] = self.route.get()
-        self.usage_info["unit"] = self.unit.get()
-        self.usage_info["normal_dosage"] = ''
-        self.usage_info["range_list"] = []
-        self.usage_info["dosage_list"] = []
-        for each_list in self.usage_range.values():
-            self.usage_info["range_list"].append(each_list[:2])
-            self.usage_info["dosage_list"].append(each_list[-1])
-
-        if not (self.usage_info["amount"] and self.usage_info["freq"] and self.usage_info["route"] and self.usage_info["unit"]):
-            self.flag = False
-        elif self.usage_info['basis'] == 'fixed':
-            if not self.usage_info["normal_dosage"]:
-                self.flag = False
-        elif not (self.usage_info["range_list"] and self.usage_info["dosage_list"]):
-            self.flag = False
-        else:
-            self.flag = True
-        if self.flag:
-            self.res[self.drug_name.get()] = copy.deepcopy(self.usage_info)
+        self.confirm(event)
 
         with open('conf.db', 'r', encoding='utf-8') as conf_file:
             conf_dict = json.load(conf_file)
@@ -308,7 +308,8 @@ class DrugUsageConf(tk.Toplevel):
         with open('conf.db', 'w+', encoding='utf-8') as conf_to_save:
             json.dump(conf_dict, conf_to_save, sort_keys=True, ensure_ascii=False)
         self.destroy()
-        sys.exit(0)
+
+
 
 
 class Ky(object):
@@ -432,8 +433,7 @@ class Ky(object):
         # 配置结束后刷新配置文件列表
         with open('conf.db', 'r', encoding='utf-8') as f:
             res = json.load(f)
-        self.drug = res.keys()
-
+        self.val.set(tuple(sorted(res.keys())))
 
     def read_data(self):
         with open('record.db', encoding='utf-8') as f:
