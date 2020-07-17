@@ -310,8 +310,6 @@ class DrugUsageConf(tk.Toplevel):
         self.destroy()
 
 
-
-
 class Ky(object):
     # 注册关联药品名及用法
     with open('conf.db', 'r', encoding='utf-8') as f:
@@ -330,8 +328,6 @@ class Ky(object):
 
         self.text_to_w = []
         self.root.title('开具处方')
-        # self.root.wm_attributes('-topmost', 1)
-        # self.root.overrideredirect(True)
 
         sw = self.root.winfo_screenwidth()
         sh = self.root.winfo_screenheight()
@@ -342,6 +338,7 @@ class Ky(object):
             "%dx%d+%d+%d" %
             (ww, wh, (sw - ww) / 2, (sh - wh) / 2))
         self.root.after(1, lambda: self.root.focus_force())
+        self.rx_kind = False
         self.val = tk.StringVar()
         tk.Label(self.root, text='患者信息').grid(pady=5)
         self.f1 = tk.Frame(self.root)
@@ -454,7 +451,10 @@ class Ky(object):
         self.weight = int(self.e4.get())
         res = self.text.get(1.0, tk.END)
         self.text_to_w = res.split('\n')
-
+        if self.age < 14:
+            self.rx_kind = True
+        else:
+            self.rx_kind = False
         self.root.destroy()
 
     def can(self):
@@ -492,9 +492,11 @@ class Ky(object):
             pass
 
 
-def to_word(text_header, text_body):
-    d = Document('.\\modal.mod')
-
+def to_word(text_header, text_body, rx_kind):
+    if rx_kind:
+        d = Document('.\\modalPd.mod')
+    else:
+        d = Document('.\\modalAdl.mod')
     t = d.tables
 
     t1 = t[0]
@@ -539,6 +541,7 @@ if __name__ == '__main__':
 
         text_head = [app.name, app.gender, str(app.age)]
         text_body = app.text_to_w
-        to_word(text_head, text_body)
+        rx_kind = app.rx_kind
+        to_word(text_head, text_body, rx_kind)
 
         print_file(os.path.abspath('.\\temp.docx'))

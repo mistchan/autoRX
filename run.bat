@@ -1,1 +1,1 @@
-start pythonw E:\autoRX\chufang.py
+start pythonw E:\autoRX\main.py
